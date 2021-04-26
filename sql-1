@@ -1,0 +1,80 @@
+#create table stocks with 5 columns
+
+SQL> create table stock
+  2  (
+  3  stockid int,
+  4  stockname varchar(50),
+  5  number_of_stocks int,
+  6  country varchar(50),
+  7  stock_date date
+  8  );
+
+Table created.
+
+#create table sales with 5 columns
+
+SQL> create table sales
+  2  (
+  3  saleid int,
+  4  cust_name varchar(50),
+  5  cust_city varchar(30),
+  6  order_no int,
+  7  sale_date date
+  8  )
+  9  ;
+
+Table created.
+
+#1. display currentdate and time
+
+SQL> select to_char(current_date,'DD-MON-YYYY HH:MI:SS') from dual;
+
+TO_CHAR(CURRENT_DATE,'DD-MON-
+-----------------------------
+26-APR-2021 04:18:24
+
+---OR----
+
+SQL> select current_date,current_timestamp from dual;
+
+CURRENT_D
+---------
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+26-APR-21
+26-APR-21 04.52.36.000000 PM +05:30
+
+
+#2. display currentdate
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+26-APR-21
+
+#3. display currentdate in given format - DD/MM/YYYY
+
+SQL> select to_char(sysdate,'DD/MM/YYYY') from dual;
+
+TO_CHAR(SY
+----------
+26/04/2021
+
+
+#4. display current day
+
+SQL> select to_char(date'2021-04-26','DAY') day from dual;
+
+DAY
+---------
+MONDAY
+
+
+#5. display date after 10 days from current date
+
+SQL> select sysdate+10 from dual;
+
+SYSDATE+1
+---------
+06-MAY-21
