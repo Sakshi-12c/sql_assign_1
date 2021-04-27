@@ -1,0 +1,169 @@
+*Task 1*
+
+#create table Employee with the following attributes and constraints
+
+create table employee
+  2  (
+  3  EmpFName varchar(50),
+  4  EmpMName varchar(50),
+  5  EmpLastName varchar(50),
+  6  EmpAge int check(EmpAge between 1 and 49),
+  7  EmpCity varchar(50) check(EmpCity like 'B%'),
+  8  EmpDesignation varchar(50) check(EmpDesignation like '%manager'),
+  9  EmpId varchar(10) check(length(EmpId)=5) primary key,
+ 10  empDOB date
+ 11  );
+
+Table created.
+
+--------------------------------------------------------------------------
+
+#insert 5 employee details
+
+SQL> insert into employee values('ram','raghav','joshi',48,'Bandra','acc manager','emp01','12-may-1992');
+
+1 row created.
+
+SQL> insert into employee values('jane','richard','sloan',45,'Banglore','sales manager','emp02','22-june-1992');
+
+1 row created.
+
+SQL> insert into employee values('sutton','ryan','hunter',25,'Badodra','project manager','emp03','05-july-1992');
+
+1 row created.
+
+SQL> insert into employee values('kat','antonz','roy',35,'Badodra','product manager','emp04','09-sep-1968');
+
+1 row created.
+
+SQL> insert into employee values('joe','john','smith',33,'Bijapur','gen manager','emp05','19-sep-1868');
+
+1 row created.
+
+----------------------------------------------------------------------------------------
+
+#update any employe and change city name
+
+SQL> update employee set EmpCity = 'Badnera' where EmpId = 'emp01';
+
+1 row updated.
+
+------------------------------------------------------------------------------------------
+
+#delete an employee
+
+SQL> delete from employee where EmpId = 'emp05';
+
+1 row deleted.
+
+SQL> commit;
+
+Commit complete.
+
+------------------------------------------------------------
+
+# delete all employees
+
+SQL> delete from employee;
+
+4 rows deleted.
+
+SQL> select * from employee;
+
+no rows selected
+
+-----------------------------------------------------------------------
+
+#get back all the employees deleted in previous delete
+
+SQL> rollback;
+
+Rollback complete.
+
+-------------------------------------------------------------------------------------
+
+# display employee  name and dob in(DD-MM-YYYY) fromat
+
+SQL> select EmpFName, to_char(empDOB,'DD-MM-YYYY') from employee;
+
+EMPFNAME                                           TO_CHAR(EM
+-------------------------------------------------- ----------
+ram                                                12-05-1992
+jane                                               22-06-1992
+sutton                                             05-07-1992
+kat                                                09-09-1968
+
+------------------------------------------------------------------------------------------------
+
+display employee  name in following format  
+       Fname   Mname    lname
+Ex:  Sachin  Ramesh  Tendulkar
+should be displayed as  S.R.Tendulkar  
+
+
+SQL> select substr(EmpFName,1,1) ||'.'|| substr(EmpMName,1,1) ||'.'||' '|| EmpLastName AS EmpFulllName from employee;
+
+EMPFULLLNAME
+-------------------------------------------------------------
+r.r. joshi
+j.r. sloan
+s.r. hunter
+k.a. roy
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+*Task 2*
+
+SQL> create table demo
+  2  (
+  3  day varchar(10),
+  4  sess int,
+  5  faculty varchar(15),
+  6  sem int,
+  7  room varchar(5),
+  8  subject varchar(10),
+  9  unique(day,sess,faculty),
+ 10  unique(day,sess,room),
+ 11  unique(day,sess,sem));
+
+Table created.
+
+SQL> insert into demo values('mon','1','john',7,'r1','java');
+
+1 row created.
+
+SQL> insert into demo values('mon','1','john',5,'r2','testing');
+insert into demo values('mon','1','john',5,'r2','testing')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (DXC.SYS_C005025) violated
+
+
+SQL> insert into demo values('mon','1','cena',7,'r3','dbms');
+insert into demo values('mon','1','cena',7,'r3','dbms')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (DXC.SYS_C005027) violated
+
+
+SQL> insert into demo values('mon','1','riya',4,'r1','ds');
+insert into demo values('mon','1','riya',4,'r1','ds')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (DXC.SYS_C005026) violated
+
+
+SQL> insert into demo values('mon','1','jack',7,'r1','oracle');
+insert into demo values('mon','1','jack',7,'r1','oracle')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (DXC.SYS_C005025) violated
+
+
+SQL> insert into demo values('tue','1','john',7,'r1','oracle');
+
+1 row created.
+
+SQL> insert into demo values('mon','2','john',7,'r1','oracle');
+
+1 row created.
