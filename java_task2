@@ -49,52 +49,28 @@ public class testString {
 		System.out.println(res3);
 }
 	
-	String  hasUpper(String data)
+	String hasUpper(String data)
 	{
-		int count = 0;
 		char[] ar= data.toCharArray();
 		for(int i =0;i<ar.length;i++) 
 		{
-			int a = (int)ar[i];
-			if(a>=65 && a<=90)
-				count++;
+			
+			if(ar[i]>=65 && ar[i]<=90)
+				return "yes";
 		}
-		String str = new String();
-		if(count>0)
-		{
-			str = "yes";
-			return str;
-		}
-		else
-		{
-			str ="no";
-			return str;
-		}
-
+		return "no";
 	}
-	
+
 	String hasNum(String data)
 	{
-		//boolean res1 = true;
-		int count = 0;
 		char[] ar= data.toCharArray();
 		for(int i =0;i<ar.length;i++) 
 		{
 			int a = (int)ar[i];
 			if(a>=48 && a<=57)
-				count++;
+				return "yes";
 		}
-		String str = new String();
-		if(count>0)
-		{
-			str = "yes";
-			return str;
-		}
-		else
-		{
-			str = "no";
-			return str;
-		}
+		return "no";
 	}
 	
 	boolean isCapsOnly(String data)
