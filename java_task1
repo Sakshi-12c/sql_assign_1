@@ -1,0 +1,55 @@
+// Replace a character by another in given string by creating 2 function myreplacefirst and myreplacelast
+
+package string_replace;
+
+public class myStringReplace {
+
+			String myReplaceFirst(String data,char find,char replace)
+			{
+				char[] ar= data.toCharArray();
+				for(int i=0;i<ar.length;i++)
+				{
+					if(ar[i]==find)
+					{
+						ar[i]=replace;
+						break;
+					}
+				}
+			String val=new String(ar);
+			return  val;
+			}
+			
+			String myReplaceLast(String data,char find,char replace)
+			{
+				char[] ar= data.toCharArray();
+				for(int i=ar.length-1;i>=0;i--)
+				{
+					if(ar[i]==find)
+					{
+						ar[i]=replace;
+						break;
+					}
+					
+				}
+			String val=new String(ar);
+			return  val;
+			}
+
+			public static void main(String[] args) {
+
+			String test="Hello";
+
+			myStringReplace m=new myStringReplace();
+			
+			String res= m.myReplaceFirst(test, 'l', 'k');
+			System.out.println(res);
+			
+			String res2= m.myReplaceLast(test, 'l', 'k');
+			System.out.println(res2);
+			}
+}
+
+
+//output : Heklo Helko
+
+
