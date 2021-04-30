@@ -1,0 +1,135 @@
+/*
+
+-> create a function to check the given string contains UPPER case char or not
+Signature of function is as follows:
+
+String hasUpper(String data)
+{
+}
+return yes if it contans upper case char else return no
+
+-> create a function to check the given string contains number   or not
+siganture same as the abouve function
+
+-> create a function to check all chars in the given string are in  UPPER case or not
+Signature of function is as follows:
+boolean isCapsOnly(String data)
+return true if all chars in arg data is in upper case
+
+
+
+-> create a function to count no of caps  chars in the given string
+Signature of function is as follows:
+int countCaps(String data)
+return no of caps chars
+
+*/
+
+
+package java_task1;
+
+public class testString {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String test="Hello World 123";
+
+		testString m=new testString();
+		String res= m.hasUpper(test);
+		System.out.println(res);
+		
+		String res1= m.hasNum(test);
+		System.out.println(res1);
+		
+		Boolean res2= m.isCapsOnly(test);
+		System.out.println(res2);
+		
+		int res3= m.countCaps(test);
+		System.out.println(res3);
+}
+	
+	String  hasUpper(String data)
+	{
+		int count = 0;
+		char[] ar= data.toCharArray();
+		for(int i =0;i<ar.length;i++) 
+		{
+			int a = (int)ar[i];
+			if(a>=65 && a<=90)
+				count++;
+		}
+		String str = new String();
+		if(count>0)
+		{
+			str = "yes";
+			return str;
+		}
+		else
+		{
+			str ="no";
+			return str;
+		}
+
+	}
+	
+	String hasNum(String data)
+	{
+		//boolean res1 = true;
+		int count = 0;
+		char[] ar= data.toCharArray();
+		for(int i =0;i<ar.length;i++) 
+		{
+			int a = (int)ar[i];
+			if(a>=48 && a<=57)
+				count++;
+		}
+		String str = new String();
+		if(count>0)
+		{
+			str = "yes";
+			return str;
+		}
+		else
+		{
+			str = "no";
+			return str;
+		}
+	}
+	
+	boolean isCapsOnly(String data)
+	{
+		int count = 0;
+		char[] ar= data.toCharArray();
+		for(int i =0;i<ar.length;i++) 
+		{
+			int a = (int)ar[i];
+			if(a>=65 && a<=90)
+				count++;
+		}
+		if(count==ar.length)
+			return true;
+		else
+			return false;
+	}
+	
+	int countCaps(String data)
+	{
+		int count = 0;
+		char[] ar= data.toCharArray();
+		for(int i =0;i<ar.length;i++) 
+		{
+			int a = (int)ar[i];
+			if(a>=65 && a<=90)
+				count++;
+		}
+		return count;
+		
+	}
+}
+
+/* output - yes
+            yes
+            false
+            2
+*/
