@@ -1,0 +1,144 @@
+/* Q1)   int sum(int... x){
+System.out.println("sum meth "+x[6]);
+return 10;
+}
+
+ // return the total sum of the args
+// print the max value
+// print the min
+// print no of ODD and even digits
+//print count numbers div by 3
+
+*/
+
+package day6;
+
+public class test1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println(sum(1,2,3,4,5,6));
+		
+	}
+	static int sum(int... x){
+		int sum=0, odd=0, even=0, count=0, max=x[0], min=x[0];
+			
+		for(int i =0;i<x.length;i++)
+		{
+			if(x[i]>max)
+				max=x[i];
+			if(x[i]<min)
+				min=x[i];
+			if(x[i]%2==0)
+				even++;
+			if(x[i]%2!=0)
+				odd++;
+			if(x[i]%3==0)
+				count++;
+		sum+=x[i];
+		}
+		
+		System.out.println("max value is : " +max);
+		System.out.println("min value is : " +min);
+		System.out.println("No. of odd digits are : " +odd);
+		System.out.println("No. of even digits are : " +even);
+		System.out.println("No. of digits divisible by 3 are : " +count);
+		return sum;
+		
+		
+	}
+
+}
+
+/*
+output - max value is : 6
+min value is : 1
+No. of odd digits are : 3
+No. of even digits are : 3
+No. of digits divisible by 3 are : 2
+21
+*/
+---------------------------------------------------------------------------------------------------------------------------
+
+/* Q2) reverse a given string 
+
+Example :  Hello
+
+output: olleH
+
+*/
+
+package day6.1;
+
+public class task2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String s = "Hello World";
+		System.out.println((rev_string(s)));
+		
+
+	}
+	public static String rev_string(String x)
+	{
+		char[] ar = x.toCharArray();
+		String str = "";
+		for(int i = ar.length-1;i>=0;i--)
+			str = str + ar[i];
+		return str;
+		
+	}
+
+}
+
+// output - dlroW olleH
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+/* Q3) reverse a given string and maintain its caps position
+
+EX:  
+input ->  HeLloWorld
+output-DlRowOlleh
+
+input ->  MyJavaWorld
+output-DlRoWaVajym
+
+*/
+
+package day6.2;
+
+public class test2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String s = "HeLlO WorlD";
+		System.out.println((revString_Cap(s)));
+		
+
+	}
+	public static String revString_Cap(String x)
+	{
+		char[] ar = x.toCharArray();
+		int j = 0;
+		String str = "";
+		for(int i=ar.length-1;i>0;i--)
+		{
+			if((ar[i]>=65 && ar[i]<=90) && (ar[j]>=97 && ar[j]<=122))
+				str+=(char)(ar[i]+32);
+			else if((ar[i]>=97 && ar[i]<=122)&& (ar[j]>=65 && ar[j]<=90))
+				str+=(char)(ar[i]-32);
+			else
+				str+=(char)ar[i];
+			
+			j++;
+		}
+	
+		return str;
+		
+	}
+
+}
+
+// output - DlRoW Olle
