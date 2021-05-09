@@ -1,0 +1,163 @@
+/* 
+Note: create with all getter setter cont and to string
+
+// create showroom class which has cars in it . no duplicate car can be stored
+
+ShowRoom ,  Car ->
+name
+cars
+
+// create 2 showroom  objects ..
+
+// accept showroom name from the cmd and display cars in the showroom
+*/
+
+//Car.java
+
+package my.showroom;
+
+public class Car {
+	
+	private String carName;
+	private String fueltype;
+	private String model;
+	private String color;
+	private int mileage;
+	private String showroomName;
+	
+	 public Car(String carName, String fueltype, String model, String color, int mileage, String showroomName)
+	{
+		this.carName=carName;
+		this.fueltype=fueltype;
+		this.model=model;
+		this.color=color;
+		this.mileage=mileage;
+		this.showroomName=showroomName;
+	}
+	 
+	 public Car()
+	 {
+		 
+	 }
+	 
+	 public String getCarName()
+	 {
+		 return carName;
+	 }
+	 public void setCar(String carName)
+	 {
+		 this.carName=carName;
+	 }
+	
+	 public String getFueltype()
+	 {
+		 return fueltype;
+	 }
+	 public void setFueltype(String fueltype)
+	 {
+		 this.fueltype=fueltype;
+	 }
+	 
+	 public String getModel()
+	 {
+		 return model;
+	 }
+	 public void setModel(String model)
+	 {
+		 this.model=model;
+	 }
+	 
+	 public String getColor()
+	 {
+		 return color;
+	 }
+	 public void setColor(String color)
+	 {
+		 this.color=color;
+	 }
+	 
+	 public int getMileage()
+	 {
+		 return mileage;
+	 }
+	 public void setMileage(int mileage)
+	 {
+		 this.mileage=mileage;
+	 }
+	 
+	 public String getShowroomName()
+	 {
+		 return showroomName;
+	 }
+	 public void setShowroomName(String showroomName)
+	 {
+		 this.showroomName=showroomName;
+	 }
+	 
+	 @Override
+	 public String toString()
+	 {
+		 return "Car info : [carName = " +carName+ " , " + "Fueltype = " +fueltype+ " , " + "model = " +model+ " , " + "color = " +color+ " , " + "mileage = " +mileage+ " , "+ "Showroom Name = " +showroomName+ "]"; 
+	 }
+   
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+//Showroom.java
+
+package my.showroom;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Showroom {
+
+	public static void main(String[] args)
+	{
+		Car car1=new Car("Ecosport","diesel","ambiente","black",21,"Ford");
+		Car car2=new Car("Figo","petrol","titanium","white", 18, "Ford");
+		Car car3=new Car("Celerio","Petrol","ZXI","blue",22, "Maruti");
+		Car car4=new Car("Swift","petrol","ZXI plus", "red", 23, "Maruti");
+		
+		ArrayList<Car> Ford_Cars=new ArrayList<>();
+		Ford_Cars.add(car1);
+		Ford_Cars.add(car2);
+		
+		HashSet<Car> FordCars=new HashSet<Car>(Ford_Cars);
+
+		ArrayList<Car> Maruti_Cars=new ArrayList<>();
+		Maruti_Cars.add(car3);
+		Maruti_Cars.add(car4);
+		
+		HashSet<Car> MarutiCars=new HashSet<Car>(Maruti_Cars);
+		
+		Map<String , HashSet<Car>> showrooms=new HashMap<String, HashSet<Car>>();
+		showrooms.put("Ford",FordCars);
+		showrooms.put("Maruti",MarutiCars);
+		
+		System.out.println("Enter showroom name to see available cars : ");
+		Scanner sc=new Scanner(System.in);
+		String showroom=sc.nextLine();
+		HashSet<Car> Showroom1=showrooms.get(showroom);
+		for(Car car:Showroom1)
+		{
+			System.out.println(car);
+		}
+    
+	}
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+/* Output : 
+Enter showroom name to see available cars : 
+Ford
+Car info : [carName = Ecosport , Fueltype = diesel , model = ambiente , color = black , mileage = 21 , Showroom Name = Ford]
+Car info : [carName = Figo , Fueltype = petrol , model = titanium , color = white , mileage = 18 , Showroom Name = Ford]
+*/
+
+
