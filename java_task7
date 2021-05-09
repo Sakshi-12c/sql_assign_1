@@ -1,0 +1,386 @@
+/*
+create a table Player
+-> Name
+-> role
+-> style
+-> team
+
+----->>
+ insert player recs into the table from a jdbc program ensure util, model ,dao and service are implemented in your code
+*/
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+#sql
+
+SQL> create table Player
+ 2   (
+ 3   Name varchar(50),
+ 4   Role varchar(30),
+ 5   Style varchar(30),
+ 6   Team varchar(20)
+ 7   );
+ 
+Table created.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+//DbConn.java
+
+package co.myproj.dbutil;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+	public class DbConn {
+
+	public static Connection dbConnect()
+	{
+		try {
+				Class.forName("oracle.jdbc.OracleDriver");
+				Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/xe","dxctest","pass");
+				return con;
+			}
+		catch (Exception e) {
+							e.printStackTrace();
+							return null;
+							}
+	}
+}
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+//Player.java
+
+package co.myproj.model;
+
+public class Player {
+
+	String name;
+	String role;
+	String style;
+	String team;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getStyle() {
+		return style;
+	}
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	public String getTeam() {
+		return team;
+	}
+	public void setTeam(String team) {
+		this.team = team;
+	}
+	public Player(String name, String role, String style, String team) {
+		super();
+		this.name = name;
+		this.role = role;
+		this.style = style;
+		this.team = team;
+	}
+	public Player() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Player [name=" + name + ", role=" + role + ", style=" + style + ", team=" + team + "]";
+	}
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+//PlayerDao.java
+
+package co.myproj.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import co.myproj.dbutil.DbConn;
+import co.myproj.model.Player;
+
+	public class PlayerDao {
+ 	
+		//savePlayer method to insert record
+    
+    public String savePlayer(Player player)
+		{
+
+			try {
+				String sql="insert into player values(?,?,?,?)";
+
+				Connection con= DbConn.dbConnect();
+				PreparedStatement stat=con.prepareStatement(sql);
+        
+        stat.setString(1, player.getName());
+				stat.setString(2, player.getRole());
+				stat.setString(3, player.getStyle());
+				stat.setString(4, player.getTeam());
+	
+				int res= stat.executeUpdate();
+
+				if(res>0)
+					return "recs inserted";
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+
+			return "cannot insert recs";
+	
+		}
+		
+		public Player getPlayerByName(String name)
+		{
+
+		try {
+
+		Connection con= DbConn.dbConnect();
+
+		String sql="select * from player where name=?";
+		PreparedStatement stat=con.prepareStatement(sql);
+
+		stat.setString(1, name);
+		ResultSet rs= stat.executeQuery();
+
+		rs.next();
+
+    String role=rs.getString("role");
+		String style= rs.getString("style");
+		String team= rs.getString("team");
+		
+    Player player=new Player(name,role, style, team);
+		return player;
+
+		}
+		catch (Exception e) {
+
+		e.printStackTrace();
+		}
+		return null;
+		}
+
+    public ArrayList<Player> getPlayers()
+		{
+
+		try {
+
+		Connection con= DbConn.dbConnect();
+
+		String sql="select * from player";
+		PreparedStatement stat=con.prepareStatement(sql);
+
+    ResultSet rs= stat.executeQuery();
+
+		ArrayList<Player> players=new ArrayList<>();
+
+		while(rs.next())
+		{
+			
+		String name=rs.getString("name");
+		String role=rs.getString("role");
+		String style= rs.getString("style");
+		String team= rs.getString("team");
+		
+		Player player=new Player(name, role, style, team);
+
+		players.add(player);
+		}
+
+		return players;
+
+		}
+		catch (Exception e) {
+
+		e.printStackTrace();
+		}
+		return null;
+		}
+	
+
+	//to delete player record
+  
+  public String deletePlayerByName(String name)
+	{
+
+	try {
+
+	Connection con= DbConn.dbConnect();
+
+	String sql="delete from player where name=?";
+	PreparedStatement stat=con.prepareStatement(sql);
+
+	stat.setString(1, name);
+	int rs= stat.executeUpdate();
+
+	if(rs>0)
+	return "recs for name "+name +" deleted";
+	}
+	catch (Exception e) {
+
+	e.printStackTrace();
+	}
+	return null;
+	}
+
+
+  //to update a player record
+
+  public String updatePlayer(Player player)
+	{
+
+	try {
+
+	Player playOld=getPlayerByName(player.getName());
+
+	Connection con= DbConn.dbConnect();
+
+	String sql="update player set name=?, role=?,style=? ,team=? where name=?";
+	PreparedStatement stat=con.prepareStatement(sql);
+
+	if(player.getName()==null)
+	player.setName(playOld.getName());
+
+	if(player.getRole()==null)
+	player.setRole(playOld.getRole());
+
+	if(player.getStyle()==null)
+	player.setStyle(playOld.getStyle());
+
+	if(player.getTeam()==null)
+	player.setTeam(playOld.getTeam());
+
+  stat.setString(1,player.getName() );
+	stat.setString(2, player.getRole());
+	stat.setString(3, player.getStyle());
+	stat.setString(4, player.getTeam());
+	
+	stat.setString(5, player.getName());
+
+  int rs= stat.executeUpdate();
+  
+  if(rs>0) {
+
+	System.out.println(playOld);
+
+	System.out.println(player);
+
+	return "recs updated for name "+player.getName();
+	  }
+  }
+	catch (Exception e) {
+
+	e.printStackTrace();
+	}
+	return null;
+	}
+ }
+ 
+ -----------------------------------------------------------------------------------------------------------------------
+ 
+ //PlayerService.java
+ 
+ package co.myproj.service;
+
+import java.util.ArrayList;
+import co.myproj.dao.PlayerDao;
+import co.myproj.model.Player;
+
+public class PlayerService {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+    
+     //to save the player rec
+		
+		//Player player=new Player("Devdutt Padikkal", "Batsman", "Left Hand Bat", "RCB");
+		//Player player=new Player("AB Deviliers", "Batsman", "Right Hand Bat", "RCB");
+		//Player player=new Player("MS Dhoni", "Batsman", "Right Hand Bat", "CSK");
+		//Player player=new Player("Yuzi Chahal", "Bowler", "Spinner", "RCB");
+		
+		PlayerDao dao=new PlayerDao();
+    
+    /* 
+    String res= dao.savePlayer(player);
+    System.out.println(res);
+    */
+    
+    //------------------------------------------------------------------
+
+		//retrive single rec
+    
+		/*
+    Player play= dao.getPlayerByName("AB Deviliers");
+		System.out.println(play);
+    */
+    
+    //-------------------------------------------------------------------
+	
+    //retrive all recs
+
+    /*
+    ArrayList<Player> player= dao.getPlayers();
+    for(Player play:player)
+		{
+		System.out.println(play);
+		}
+    */
+    
+    //-------------------------------------------------------------
+		
+		//to delete a record
+    //System.out.println(dao.deletePlayerByName("MS Dhoni"));
+    
+    //-----------------------------------------------------------------
+    
+    //to update a record
+    
+    
+    Player playerUpdate=new Player();
+    playerUpdate.setName("AB Deviliers");
+    playerUpdate.setRole("Batsman");
+    System.out.println(dao.updatePlayer(playerUpdate));
+    
+	}	
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/* Output :
+
+1. recs inserted.
+
+2. Player [name=AB Deviliers, role=Batsman, style=Right Hand Bat, team=RCB].
+
+3. Player [name=Devdutt Padikkal, role=Batsman, style=Left Hand Bat, team=RCB]
+   Player [name=AB Deviliers, role=Batsman, style=Right Hand Bat, team=RCB]
+   Player [name=MSD, role=Wicket Keeper, style=NA, team=CSK]
+   Player [name=Yuzi Chahal, role=Bowler, style=Spinner, team=RCB]
+   Player [name=Deepak Chahar, role=Bowler, style=Fast Bowling, team=CSk]
+   Player [name=Maxwell, role=Batsman, style=Right Hand Bat, team=RCB]
+   Player [name=Rishabh Pant, role=Wicket Keeper, style=NA, team=Delhi Capitals]
+   
+4.  recs for name MSD deleted
+
+5. Player [name=AB Deviliers, role=Bowler, style=Right Hand Bat, team=RCB]
+  Player [name=AB Deviliers, role=Batsman, style=Right Hand Bat, team=RCB]
+  recs updated for name AB Deviliers
+  
+*/
+
